@@ -13,14 +13,14 @@ import { IButtplugDeviceImpl } from "../IButtplugDeviceImpl";
 
 export class WeVibe extends ButtplugDeviceProtocol {
   public static readonly DualVibes: string[] = ["Cougar", "4 Plus", "4plus", "classic", "Classic",
-                                                "Gala", "Nova", "NOVAV2", "Sync", "Vector"];
+                                                "Gala", "Nova", "NOVAV2", "Sync", "Vector", "Chorus" ];
   public static readonly NameMap = {
     "Cougar": "4 Plus",
     "4plus": "4 Plus",
     "classic": "Classic",
     "NOVAV2": "Nova",
   };
-  public static readonly EightBitSpeed: string[]  = ["Melt", "Moxie", "Vector"];
+  public static readonly EightBitSpeed: string[]  = ["Melt", "Moxie", "Vector", "Chorus", "Wand"];
 
   private readonly _vibratorCount: number = 1;
   private readonly _eightBitSpeed: boolean = false;
@@ -34,8 +34,11 @@ export class WeVibe extends ButtplugDeviceProtocol {
     if (WeVibe.NameMap.hasOwnProperty(aDeviceImpl.Name)) {
       this._name = WeVibe.NameMap[aDeviceImpl.Name];
     }
-    if(aDeviceImpl.Name === "Melt") {
+    if (aDeviceImpl.Name === "Melt" || aDeviceImpl.Name === "Wand") {
       this._max8bit = 22;
+    }
+    if (aDeviceImpl.Name === "Chorus") {
+      this._max8bit = 27;
     }
     this._eightBitSpeed = WeVibe.EightBitSpeed.find((x) => x === aDeviceImpl.Name) ? true : false;
     this.MsgFuncs.set(Messages.StopDeviceCmd, this.HandleStopDeviceCmd);
